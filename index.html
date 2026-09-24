@@ -22,18 +22,14 @@
 
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
-<body class="dark-theme">
-  <!-- Interactive Canvas Background -->
+<body class="light-theme">
+  <!-- Interactive Canvas Background (reacts to mouse in hero & canvas spots) -->
   <canvas id="bg-canvas"></canvas>
 
-  <!-- Custom Cursor -->
-  <div id="cursor-dot" class="cursor-dot"></div>
-  <div id="cursor-ring" class="cursor-ring"></div>
-
-  <!-- Scroll Progress Bar -->
+  <!-- Scroll Progress Indicator -->
   <div id="scroll-progress" class="scroll-progress"></div>
 
-  <!-- Ambient Blue Background Lights -->
+  <!-- Ambient Light Accents (soft sky blue & cyan glows) -->
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
   <div class="ambient-glow glow-3"></div>
@@ -41,27 +37,27 @@
   <!-- Header / Navigation -->
   <header class="site-header">
     <div class="header-inner">
-      <a href="#" class="logo-badge" data-cursor="hover">
+      <a href="#" class="logo-badge">
         <span class="logo-symbol">✦</span>
         <span class="logo-text">sandbox // 2026</span>
       </a>
 
-      <!-- Digital status ticker (inspired by wodniack.dev binary ribbon) -->
+      <!-- Digital status ticker -->
       <div class="status-ticker">
         <span class="status-dot"></span>
         <span class="status-label">tinkering with AI pipelines & retail intelligence</span>
       </div>
 
       <nav class="nav-links">
-        <a href="#about" class="nav-item" data-cursor="hover">about</a>
-        <a href="#values" class="nav-item" data-cursor="hover">values</a>
-        <a href="#work" class="nav-item" data-cursor="hover">projects</a>
-        <a href="#press" class="nav-item" data-cursor="hover">in the press</a>
-        <a href="#contact" class="nav-item nav-btn" data-cursor="hover">say hi</a>
+        <a href="#about" class="nav-item">about</a>
+        <a href="#values" class="nav-item">values</a>
+        <a href="#work" class="nav-item">projects</a>
+        <a href="#press" class="nav-item">in the press</a>
+        <a href="#contact" class="nav-item nav-btn">say hi</a>
       </nav>
 
       <!-- Mobile Menu Button -->
-      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" data-cursor="hover">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
         <span></span>
         <span></span>
         <span></span>
@@ -85,19 +81,19 @@
     <section class="hero-section" id="hero">
       <div class="container hero-container">
         
-        <!-- Interactive Micro-Badge -->
+        <!-- Interactive Micro-Badge Row -->
         <div class="hero-pill-row reveal">
-          <div class="pill-chip" data-cursor="hover">
+          <div class="pill-chip">
             <span class="chip-pulse"></span>
             <span>interactive backdrop</span>
           </div>
-          <div class="pill-chip subtle" id="canvas-mode-btn" data-cursor="hover" title="Click to cycle physics mode">
-            <span>mode: <strong id="mode-text">magnetic blue</strong></span>
+          <button class="pill-chip interactive-btn" id="canvas-mode-btn" title="Click to cycle physics mode">
+            <span>physics: <strong id="mode-text">magnetic blue</strong></span>
             <span class="chip-icon">⚡</span>
-          </div>
+          </button>
         </div>
 
-        <!-- Main Playful Title (No third-person noun action) -->
+        <!-- Main Playful Title (Actionless / Humble Framing) -->
         <h1 class="hero-title reveal">
           check out these <span class="gradient-text">things</span> I’m working on.
         </h1>
@@ -109,16 +105,22 @@
 
         <!-- Interactive Action Row -->
         <div class="hero-actions reveal">
-          <a href="#work" class="btn btn-primary" data-cursor="hover">
+          <a href="#work" class="btn btn-primary">
             <span>explore projects</span>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
           </a>
-          <a href="#values" class="btn btn-secondary" data-cursor="hover">
+          <a href="#values" class="btn btn-secondary">
             <span>things I stand for</span>
           </a>
         </div>
 
-        <!-- Binary/ASCII Digital Accent Bar (wodniack.dev aesthetic) -->
+        <!-- Interactive Canvas Playground Hint -->
+        <div class="canvas-spot-hint reveal">
+          <span class="spot-icon">✦</span>
+          <span>Move your mouse or click here to interact with the particle field</span>
+        </div>
+
+        <!-- Binary / Digital Concept Ribbon -->
         <div class="digital-ribbon reveal" aria-hidden="true">
           <span>01000001</span><span>•</span>
           <span>ACCESSIBLE_TECH</span><span>•</span>
@@ -138,9 +140,9 @@
         <div class="about-card tilt-card reveal" data-tilt>
           <div class="about-grid">
             
-            <!-- Profile Avatar with Interactive Cyan/Blue Ring -->
+            <!-- Profile Avatar with Crisp Cyan/Blue Glow Ring -->
             <div class="about-visual">
-              <div class="avatar-wrapper" data-cursor="hover">
+              <div class="avatar-wrapper">
                 <img src="assets/images/boulos_linkedin.jpg" alt="Profile photo" class="avatar-img" width="800" height="800">
                 <div class="avatar-ring"></div>
                 <div class="avatar-sparkle">✦</div>
@@ -151,13 +153,13 @@
               </div>
             </div>
 
-            <!-- About Text -->
+            <!-- About Content -->
             <div class="about-content">
               <span class="section-tag">hello world</span>
               <h2 class="section-heading">curious about how broken systems can be put together better.</h2>
               <p class="section-desc">
                 I love taking complicated, opaque, or gatekept problems and building straightforward, 
-                playful solutions around them. Whether that’s engineering ray-resistant ocean footwear, 
+                playful solutions around them. Whether that’s engineering stingray-resistant ocean footwear, 
                 designing robotic force-assisted carts for older adults, or automating media and retail intelligence 
                 to put money back in people's pockets.
               </p>
@@ -181,19 +183,19 @@
                 </div>
               </div>
 
-              <!-- Quick Links -->
+              <!-- Social / Contact Links -->
               <div class="social-links-row">
-                <a href="https://www.linkedin.com/in/bouloshaddad/" target="_blank" rel="noopener noreferrer" class="social-chip" data-cursor="hover">
+                <a href="https://www.linkedin.com/in/bouloshaddad/" target="_blank" rel="noopener noreferrer" class="social-chip">
                   <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.64c-.9 0-1.63.73-1.63 1.63 0 .9.73 1.63 1.63 1.63.9 0 1.63-.73 1.63-1.63 0-.9-.73-1.63-1.63-1.63Z"/></svg>
                   <span>LinkedIn</span>
                 </a>
-                <a href="https://github.com/haddadboulos" target="_blank" rel="noopener noreferrer" class="social-chip" data-cursor="hover">
+                <a href="https://github.com/haddadboulos" target="_blank" rel="noopener noreferrer" class="social-chip">
                   <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"/></svg>
                   <span>GitHub</span>
                 </a>
-                <a href="mailto:haddadboulos1@gmail.com" class="social-chip" data-cursor="hover">
+                <a href="mailto:boulos@bouloshaddad.com" class="social-chip">
                   <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-                  <span>haddadboulos1@gmail.com</span>
+                  <span>boulos@bouloshaddad.com</span>
                 </a>
               </div>
 
@@ -367,7 +369,7 @@
                   <span>San Diego Press</span>
                 </div>
                 <div class="project-link-row">
-                  <a href="https://www.sandiegouniontribune.com/2022/03/20/dragonskin-uc-san-diego-graduates-fashion-footwear-to-keep-rays-at-bay/" target="_blank" rel="noopener noreferrer" class="link-arrow" data-cursor="hover">
+                  <a href="https://www.sandiegouniontribune.com/2022/03/20/dragonskin-uc-san-diego-graduates-fashion-footwear-to-keep-rays-at-bay/" target="_blank" rel="noopener noreferrer" class="link-arrow">
                     <span>Read San Diego Union-Tribune Story</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
                   </a>
@@ -376,12 +378,12 @@
 
               <!-- Real Images of DragonSkin -->
               <div class="project-media-col">
-                <div class="media-thumb-card" data-cursor="hover">
+                <div class="media-thumb-card">
                   <img src="assets/images/dragonskin_bootie.jpg" alt="DragonSkin Stingray Resistant Bootie" class="project-img" loading="lazy">
-                  <span class="media-caption">DragonSkin puncture-resistant bootie</span>
+                  <span class="media-caption">DragonSkin stingray-resistant bootie</span>
                 </div>
-                <div class="media-thumb-card secondary" data-cursor="hover">
-                  <img src="assets/images/dragonskin_barb.jpg" alt="Stingray barb testing" class="project-img" loading="lazy">
+                <div class="media-thumb-card secondary">
+                  <img src="assets/images/dragonskin_barb.jpg" alt="Stingray barb pendulum testing" class="project-img" loading="lazy">
                   <span class="media-caption">Pendulum stingray barb testing</span>
                 </div>
               </div>
@@ -431,15 +433,72 @@
           <span class="section-tag">external pieces & coverage</span>
           <h2 class="section-heading">articles & mentions.</h2>
           <p class="section-desc">
-            Featured stories, design competitions, and published viewpoints with original photo coverage.
+            Featured stories, interviews, and published viewpoints with original photo coverage.
           </p>
         </div>
 
         <div class="press-grid">
           
-          <!-- Article 1: UCSD Senior Design Cart (MightyCart) -->
+          <!-- Article 1: Bold Journey Feature Interview -->
+          <article class="press-card tilt-card featured-press reveal" data-tilt>
+            <a href="https://boldjourney.com/meet-boulos-haddad/" target="_blank" rel="noopener noreferrer" class="press-card-inner">
+              <div class="press-thumb-wrapper">
+                <img src="assets/images/boldjourney_optimism.jpg" alt="Meet Boulos Haddad on Bold Journey Magazine" class="press-thumb" loading="lazy">
+                <div class="press-badge-award highlight">🎙️ Feature Interview</div>
+              </div>
+              <div class="press-content">
+                <div class="press-meta">
+                  <span class="press-outlet">Bold Journey Magazine</span>
+                  <span class="press-date">2025</span>
+                </div>
+                <h3 class="press-title">Meet Boulos Haddad: Rewriting Human Rules, Optimism & Building DragonSkin</h3>
+                <p class="press-excerpt">
+                  "My optimism is deeply tied to my viewpoint that people are good in nature and that the options to do good in the world are plentiful... Traces back to an upbringing knowing that any human rule and limitation can be rewritten. Today's lows can turn into tomorrow's limitless highs."
+                </p>
+                <div class="press-tag-row">
+                  <span class="mini-tag">founder journey</span>
+                  <span class="mini-tag">rewriting rules</span>
+                  <span class="mini-tag">dragonskin story</span>
+                </div>
+                <div class="press-read-more">
+                  <span>Read Full Feature Story</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <!-- Article 2: Bold Journey - Unlocking Optimism Series -->
           <article class="press-card tilt-card reveal" data-tilt>
-            <a href="https://www.sandiegouniontribune.com/2016/06/04/ucsd-students-create-products-for-senior-citizens/" target="_blank" rel="noopener noreferrer" class="press-card-inner" data-cursor="hover">
+            <a href="https://boldjourney.com/unlocking-optimism-stories-insights-30/" target="_blank" rel="noopener noreferrer" class="press-card-inner">
+              <div class="press-thumb-wrapper">
+                <img src="assets/images/boldjourney_optimism.jpg" alt="Unlocking Optimism Stories and Insights" class="press-thumb" loading="lazy">
+                <div class="press-badge-award">💡 Perspectives</div>
+              </div>
+              <div class="press-content">
+                <div class="press-meta">
+                  <span class="press-outlet">Bold Journey Series</span>
+                  <span class="press-date">2025</span>
+                </div>
+                <h3 class="press-title">Unlocking Optimism: A Viewpoint on Rewriting Limitations</h3>
+                <p class="press-excerpt">
+                  How growing up in a single-income immigrant household shaped an unshakable belief that necessity spurs innovation, roofs above you can be knocked down, and optimism can be tempered with grounded realism.
+                </p>
+                <div class="press-tag-row">
+                  <span class="mini-tag">mindset</span>
+                  <span class="mini-tag">optimism</span>
+                </div>
+                <div class="press-read-more">
+                  <span>Read Article</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+                </div>
+              </div>
+            </a>
+          </article>
+
+          <!-- Article 3: UCSD Senior Design Cart (MightyCart) -->
+          <article class="press-card tilt-card reveal" data-tilt>
+            <a href="https://www.sandiegouniontribune.com/2016/06/04/ucsd-students-create-products-for-senior-citizens/" target="_blank" rel="noopener noreferrer" class="press-card-inner">
               <div class="press-thumb-wrapper">
                 <img src="assets/images/ucsd_mightycart.jpg" alt="UCSD MightyCart Team Fountain of Youth" class="press-thumb" loading="lazy">
                 <div class="press-badge-award">🏆 1st Place ($4,000 Award)</div>
@@ -455,6 +514,10 @@
                   a foldable, motorized cart equipped with handle force sensors to prevent falls and allow 
                   older adults to effortlessly transport heavy loads.
                 </p>
+                <div class="press-tag-row">
+                  <span class="mini-tag">elder dignity</span>
+                  <span class="mini-tag">hardware robotics</span>
+                </div>
                 <div class="press-read-more">
                   <span>Read Article</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
@@ -463,35 +526,9 @@
             </a>
           </article>
 
-          <!-- Article 2: Viewpoint on Optimism Piece (Bold Journey) -->
+          <!-- Article 4: DragonSkin Surf Footwear (San Diego Union-Tribune) -->
           <article class="press-card tilt-card reveal" data-tilt>
-            <a href="https://boldjourney.com/meet-boulos-haddad/" target="_blank" rel="noopener noreferrer" class="press-card-inner" data-cursor="hover">
-              <div class="press-thumb-wrapper">
-                <img src="assets/images/boldjourney_optimism.jpg" alt="Viewpoint on Optimism feature" class="press-thumb" loading="lazy">
-                <div class="press-badge-award">🎙️ Feature Interview</div>
-              </div>
-              <div class="press-content">
-                <div class="press-meta">
-                  <span class="press-outlet">Bold Journey Magazine</span>
-                  <span class="press-date">2025</span>
-                </div>
-                <h3 class="press-title">Unlocking Optimism: A Viewpoint on Rewriting Limitations</h3>
-                <p class="press-excerpt">
-                  "My optimism is deeply tied to my viewpoint that people are good in nature... 
-                  tracing back to an upbringing filled with gratitude, knowing human rules can be rewritten, 
-                  and an unbridled outlook on what can be achieved."
-                </p>
-                <div class="press-read-more">
-                  <span>Read Interview</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
-                </div>
-              </div>
-            </a>
-          </article>
-
-          <!-- Article 3: DragonSkin Surf Footwear (San Diego Union-Tribune) -->
-          <article class="press-card tilt-card reveal" data-tilt>
-            <a href="https://www.sandiegouniontribune.com/2022/03/20/dragonskin-uc-san-diego-graduates-fashion-footwear-to-keep-rays-at-bay/" target="_blank" rel="noopener noreferrer" class="press-card-inner" data-cursor="hover">
+            <a href="https://www.sandiegouniontribune.com/2022/03/20/dragonskin-uc-san-diego-graduates-fashion-footwear-to-keep-rays-at-bay/" target="_blank" rel="noopener noreferrer" class="press-card-inner">
               <div class="press-thumb-wrapper">
                 <img src="assets/images/dragonskin_barb.jpg" alt="DragonSkin Footwear in San Diego Union-Tribune" class="press-thumb" loading="lazy">
                 <div class="press-badge-award">🌊 Ocean Safety</div>
@@ -503,9 +540,13 @@
                 </div>
                 <h3 class="press-title">DragonSkin: UC San Diego Graduates Fashion Footwear to Keep Rays at Bay</h3>
                 <p class="press-excerpt">
-                  How UCSD alumni turned their apartment into a "mad scientist lab" with pendulum strike tests 
+                  How UCSD alumni turned their apartment into a testing lab with pendulum strike tests 
                   to engineer the first stingray-resistant surf bootie, keeping coastal beachgoers safe in La Jolla.
                 </p>
+                <div class="press-tag-row">
+                  <span class="mini-tag">materials science</span>
+                  <span class="mini-tag">coastal gear</span>
+                </div>
                 <div class="press-read-more">
                   <span>Read Article</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
@@ -533,11 +574,11 @@
           </p>
 
           <div class="contact-actions">
-            <a href="mailto:haddadboulos1@gmail.com" class="btn btn-primary" data-cursor="hover">
+            <a href="mailto:boulos@bouloshaddad.com" class="btn btn-primary">
               <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="m22 6-10 7L2 6"/></svg>
-              <span>haddadboulos1@gmail.com</span>
+              <span>boulos@bouloshaddad.com</span>
             </a>
-            <a href="https://www.linkedin.com/in/bouloshaddad/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" data-cursor="hover">
+            <a href="https://www.linkedin.com/in/bouloshaddad/" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
               <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.64c-.9 0-1.63.73-1.63 1.63 0 .9.73 1.63 1.63 1.63.9 0 1.63-.73 1.63-1.63 0-.9-.73-1.63-1.63-1.63Z"/></svg>
               <span>connect on LinkedIn</span>
             </a>
@@ -546,7 +587,7 @@
           <div class="footer-bottom">
             <span class="footer-copy">bouloshaddad.com // built with care & curiosity</span>
             <span class="footer-dots">✦ ✦ ✦</span>
-            <a href="#hero" class="back-to-top" data-cursor="hover">back to top ↑</a>
+            <a href="#hero" class="back-to-top">back to top ↑</a>
           </div>
         </div>
 

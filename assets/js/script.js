@@ -1,6 +1,7 @@
 /* ==========================================================================
    PORTFOLIO ENGINE // INTERACTIVE CANVAS, PHYSICS & MICRO-INTERACTIONS
    Inspired by wodniack.dev // Canvas Backdrop, Mouse Dynamics, 3D Tilt
+   Light Theme Edition // Native System Mouse
    ========================================================================== */
 
 (function () {
@@ -8,59 +9,49 @@
 
   // State
   const state = {
-    mouse: { x: window.innerWidth / 2, y: window.innerHeight / 2, targetX: window.innerWidth / 2, targetY: window.innerHeight / 2, moved: false },
-    cursor: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
-    canvasMode: 0, // 0: magnetic blue, 1: repulsion shockwave, 2: quantum constellation
+    mouse: { x: window.innerWidth / 2, y: window.innerHeight / 2, moved: false, activeInHero: false },
+    canvasMode: 0, // 0: magnetic blue, 1: repulsion grid, 2: quantum field
     modes: ['magnetic blue', 'repulsion grid', 'quantum field'],
     ripples: []
   };
 
   /* ==========================================================================
-     1. CUSTOM CURSOR
+     1. MOUSE TRACKING (REGULAR NATIVE MOUSE - INTERACTS IN CERTAIN SPOTS)
      ========================================================================== */
-  const cursorDot = document.getElementById('cursor-dot');
-  const cursorRing = document.getElementById('cursor-ring');
+  const heroSection = document.getElementById('hero');
 
-  if (cursorDot && cursorRing && window.matchMedia('(pointer: fine)').matches) {
-    window.addEventListener('mousemove', (e) => {
-      state.mouse.x = e.clientX;
-      state.mouse.y = e.clientY;
-      state.mouse.moved = true;
+  window.addEventListener('mousemove', (e) => {
+    state.mouse.x = e.clientX;
+    state.mouse.y = e.clientY;
+    state.mouse.moved = true;
 
-      cursorDot.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
-    }, { passive: true });
-
-    // Smooth lerp for outer ring
-    function renderCursor() {
-      state.cursor.x += (state.mouse.x - state.cursor.x) * 0.18;
-      state.cursor.y += (state.mouse.y - state.cursor.y) * 0.18;
-      cursorRing.style.transform = `translate(${state.cursor.x}px, ${state.cursor.y}px) translate(-50%, -50%)`;
-      requestAnimationFrame(renderCursor);
+    if (heroSection) {
+      const heroRect = heroSection.getBoundingClientRect();
+      state.mouse.activeInHero = (
+        e.clientY >= heroRect.top &&
+        e.clientY <= heroRect.bottom &&
+        e.clientX >= heroRect.left &&
+        e.clientX <= heroRect.right
+      );
     }
-    requestAnimationFrame(renderCursor);
+  }, { passive: true });
 
-    // Hover state detection
-    const hoverTargets = document.querySelectorAll('a, button, [data-cursor="hover"], .tilt-card');
-    hoverTargets.forEach((target) => {
-      target.addEventListener('mouseenter', () => cursorRing.classList.add('hovering'));
-      target.addEventListener('mouseleave', () => cursorRing.classList.remove('hovering'));
-    });
-  } else {
-    if (cursorDot) cursorDot.style.display = 'none';
-    if (cursorRing) cursorRing.style.display = 'none';
-  }
+  window.addEventListener('mouseleave', () => {
+    state.mouse.moved = false;
+    state.mouse.activeInHero = false;
+  });
 
   /* ==========================================================================
-     2. INTERACTIVE CANVAS BACKDROP (Physics & Particles)
+     2. INTERACTIVE CANVAS BACKDROP (Light Theme Edition)
      ========================================================================== */
   const canvas = document.getElementById('bg-canvas');
   if (canvas) {
     const ctx = canvas.getContext('2d');
     let width, height, dpr;
     let particles = [];
-    const particleCount = window.innerWidth < 768 ? 45 : 95;
+    const particleCount = window.innerWidth < 768 ? 40 : 85;
 
-    // Symbol choices inspired by wodniack.dev
+    // Symbols inspired by wodniack.dev
     const symbols = ['•', '0', '1', '+', '✦'];
 
     class Particle {
@@ -73,14 +64,15 @@
         this.y = init ? Math.random() * height : Math.random() * height;
         this.originX = this.x;
         this.originY = this.y;
-        this.vx = (Math.random() - 0.5) * 0.45;
-        this.vy = (Math.random() - 0.5) * 0.45;
-        this.radius = Math.random() * 2 + 1;
-        this.baseColor = Math.random() > 0.3 ? 'rgba(56, 189, 248,' : 'rgba(59, 130, 246,';
-        this.alpha = Math.random() * 0.5 + 0.2;
-        this.isSymbol = Math.random() > 0.65;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = (Math.random() - 0.5) * 0.4;
+        this.radius = Math.random() * 2 + 1.2;
+        // Crisp Electric Blue & Sky Blue for Light Theme
+        this.baseColor = Math.random() > 0.35 ? 'rgba(37, 99, 235,' : 'rgba(2, 132, 199,';
+        this.alpha = Math.random() * 0.35 + 0.25;
+        this.isSymbol = Math.random() > 0.7;
         this.symbol = symbols[Math.floor(Math.random() * symbols.length)];
-        this.size = Math.random() * 10 + 9;
+        this.size = Math.random() * 9 + 8;
       }
 
       update() {
@@ -88,46 +80,46 @@
         this.x += this.vx;
         this.y += this.vy;
 
-        // Bounce on boundary
+        // Bounce gently on boundaries
         if (this.x < 0 || this.x > width) this.vx *= -1;
         if (this.y < 0 || this.y > height) this.vy *= -1;
 
-        // Mouse physics interaction
+        // Mouse physics interaction (active in hero & top zones)
         const dx = state.mouse.x * dpr - this.x;
         const dy = state.mouse.y * dpr - this.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const maxDist = 180 * dpr;
+        const maxDist = (state.mouse.activeInHero ? 220 : 140) * dpr;
 
-        if (dist < maxDist) {
+        if (state.mouse.moved && dist < maxDist) {
           const force = (1 - dist / maxDist);
           const angle = Math.atan2(dy, dx);
 
           if (state.canvasMode === 0) {
-            // Mode 0: Magnetic attraction/orbit
-            this.x += Math.cos(angle) * force * 3.5;
-            this.y += Math.sin(angle) * force * 3.5;
+            // Mode 0: Magnetic attraction/orbital spring
+            this.x += Math.cos(angle) * force * 3.0;
+            this.y += Math.sin(angle) * force * 3.0;
           } else if (state.canvasMode === 1) {
-            // Mode 1: Strong Repulsion shock
-            this.x -= Math.cos(angle) * force * 7.0;
-            this.y -= Math.sin(angle) * force * 7.0;
+            // Mode 1: Repulsion shock
+            this.x -= Math.cos(angle) * force * 5.5;
+            this.y -= Math.sin(angle) * force * 5.5;
           } else {
             // Mode 2: Swirl turbulence
-            this.x += Math.cos(angle + Math.PI / 2) * force * 5.0;
-            this.y += Math.sin(angle + Math.PI / 2) * force * 5.0;
+            this.x += Math.cos(angle + Math.PI / 2) * force * 4.0;
+            this.y += Math.sin(angle + Math.PI / 2) * force * 4.0;
           }
         }
 
-        // Handle ripples from clicks
+        // Handle click ripples
         for (let i = 0; i < state.ripples.length; i++) {
           const rip = state.ripples[i];
           const rdx = this.x - rip.x;
           const rdy = this.y - rip.y;
           const rDist = Math.sqrt(rdx * rdx + rdy * rdy);
-          if (Math.abs(rDist - rip.radius) < 30 * dpr) {
-            const push = (1 - Math.abs(rDist - rip.radius) / (30 * dpr)) * rip.power;
+          if (Math.abs(rDist - rip.radius) < 35 * dpr) {
+            const push = (1 - Math.abs(rDist - rip.radius) / (35 * dpr)) * rip.power;
             const rAngle = Math.atan2(rdy, rdx);
-            this.x += Math.cos(rAngle) * push * 6;
-            this.y += Math.sin(rAngle) * push * 6;
+            this.x += Math.cos(rAngle) * push * 5.5;
+            this.y += Math.sin(rAngle) * push * 5.5;
           }
         }
       }
@@ -135,8 +127,6 @@
       draw() {
         ctx.save();
         ctx.fillStyle = `${this.baseColor} ${this.alpha})`;
-        ctx.shadowColor = 'rgba(56, 189, 248, 0.4)';
-        ctx.shadowBlur = 6;
 
         if (this.isSymbol) {
           ctx.font = `${this.size}px 'JetBrains Mono', monospace`;
@@ -172,23 +162,39 @@
 
     // Click Shockwave
     window.addEventListener('click', (e) => {
+      // Don't shockwave on interactive buttons/links
+      if (e.target.closest('a, button, input')) return;
+
       state.ripples.push({
         x: e.clientX * dpr,
         y: e.clientY * dpr,
         radius: 10,
-        maxRadius: 260 * dpr,
+        maxRadius: 280 * dpr,
         power: 1.0,
-        alpha: 0.8
+        alpha: 0.6
       });
     });
 
-    // Cycle Mode Button
+    // Mode Toggle Button in Hero
     const modeBtn = document.getElementById('canvas-mode-btn');
     const modeText = document.getElementById('mode-text');
     if (modeBtn && modeText) {
-      modeBtn.addEventListener('click', () => {
+      modeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         state.canvasMode = (state.canvasMode + 1) % state.modes.length;
         modeText.textContent = state.modes[state.canvasMode];
+
+        // Trigger a cheerful burst on mode toggle
+        const rect = modeBtn.getBoundingClientRect();
+        state.ripples.push({
+          x: (rect.left + rect.width / 2) * dpr,
+          y: (rect.top + rect.height / 2) * dpr,
+          radius: 5,
+          maxRadius: 300 * dpr,
+          power: 1.2,
+          alpha: 0.75
+        });
       });
     }
 
@@ -199,13 +205,13 @@
       // Render ripples
       for (let i = state.ripples.length - 1; i >= 0; i--) {
         const rip = state.ripples[i];
-        rip.radius += 6 * dpr;
+        rip.radius += 5.5 * dpr;
         rip.alpha *= 0.94;
         rip.power *= 0.94;
 
         ctx.save();
-        ctx.strokeStyle = `rgba(56, 189, 248, ${rip.alpha})`;
-        ctx.lineWidth = 2 * dpr;
+        ctx.strokeStyle = `rgba(37, 99, 235, ${rip.alpha * 0.6})`;
+        ctx.lineWidth = 1.5 * dpr;
         ctx.beginPath();
         ctx.arc(rip.x, rip.y, rip.radius, 0, Math.PI * 2);
         ctx.stroke();
@@ -216,8 +222,8 @@
         }
       }
 
-      // Connect particles with luminous blue lines
-      const maxConnectDist = 110 * dpr;
+      // Connecting blue lines between nearby particles
+      const maxConnectDist = 115 * dpr;
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
@@ -225,9 +231,9 @@
           const dist = Math.sqrt(dx * dx + dy * dy);
 
           if (dist < maxConnectDist) {
-            const alpha = (1 - dist / maxConnectDist) * 0.18;
-            ctx.strokeStyle = `rgba(59, 130, 246, ${alpha})`;
-            ctx.lineWidth = 0.8 * dpr;
+            const alpha = (1 - dist / maxConnectDist) * 0.16;
+            ctx.strokeStyle = `rgba(37, 99, 235, ${alpha})`;
+            ctx.lineWidth = 0.75 * dpr;
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -236,24 +242,26 @@
         }
       }
 
-      // Draw connection lines to mouse
-      const mouseMaxDist = 140 * dpr;
+      // Draw connection lines to mouse when active in hero/spot
+      const mouseMaxDist = (state.mouse.activeInHero ? 160 : 100) * dpr;
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
         p.update();
         p.draw();
 
-        const mdx = state.mouse.x * dpr - p.x;
-        const mdy = state.mouse.y * dpr - p.y;
-        const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
-        if (mDist < mouseMaxDist) {
-          const mAlpha = (1 - mDist / mouseMaxDist) * 0.35;
-          ctx.strokeStyle = `rgba(56, 189, 248, ${mAlpha})`;
-          ctx.lineWidth = 1 * dpr;
-          ctx.beginPath();
-          ctx.moveTo(p.x, p.y);
-          ctx.lineTo(state.mouse.x * dpr, state.mouse.y * dpr);
-          ctx.stroke();
+        if (state.mouse.moved) {
+          const mdx = state.mouse.x * dpr - p.x;
+          const mdy = state.mouse.y * dpr - p.y;
+          const mDist = Math.sqrt(mdx * mdx + mdy * mdy);
+          if (mDist < mouseMaxDist) {
+            const mAlpha = (1 - mDist / mouseMaxDist) * 0.28;
+            ctx.strokeStyle = `rgba(2, 132, 199, ${mAlpha})`;
+            ctx.lineWidth = 0.9 * dpr;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(state.mouse.x * dpr, state.mouse.y * dpr);
+            ctx.stroke();
+          }
         }
       }
 
@@ -275,10 +283,10 @@
         const centerX = rect.width / 2;
         const centerY = rect.height / 2;
 
-        const rotateX = ((y - centerY) / centerY) * -6; // max 6deg
-        const rotateY = ((x - centerX) / centerX) * 6;  // max 6deg
+        const rotateX = ((y - centerY) / centerY) * -5; // max 5deg
+        const rotateY = ((x - centerX) / centerX) * 5;  // max 5deg
 
-        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.015, 1.015, 1.015)`;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.01, 1.01, 1.01)`;
       });
 
       card.addEventListener('mouseleave', () => {
@@ -330,20 +338,20 @@
 
   if (menuToggle && mobileDrawer) {
     menuToggle.addEventListener('click', () => {
-      const isOpen = mobileDrawer.classList.toggle('open');
+      const isOpen = mobileDrawer.classList.toggle('is-open');
       menuToggle.setAttribute('aria-expanded', String(isOpen));
     });
 
     mobileLinks.forEach((link) => {
       link.addEventListener('click', () => {
-        mobileDrawer.classList.remove('open');
+        mobileDrawer.classList.remove('is-open');
         menuToggle.setAttribute('aria-expanded', 'false');
       });
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) {
-        mobileDrawer.classList.remove('open');
+      if (e.key === 'Escape' && mobileDrawer.classList.contains('is-open')) {
+        mobileDrawer.classList.remove('is-open');
         menuToggle.setAttribute('aria-expanded', 'false');
       }
     });
